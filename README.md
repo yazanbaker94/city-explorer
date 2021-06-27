@@ -14,7 +14,7 @@ The application uses react to build the web app and has a form in the main page,
 
 ## Change Log
 27/06/2021 - 3:00 PM: 
-Started the app and installed bootstrap and axios.
+Started the app and installed bootstrap and axios
 
 27/06/2021 - 4:00 PM: 
 Retrieved data from axios.get() and added them to props
