@@ -10,6 +10,8 @@ export class App extends Component {
     displayName:'',
     longitude:'',
     latitude:'',
+    error:'',
+    show:true,
     
   }
   }
@@ -27,7 +29,8 @@ export class App extends Component {
     this.setState({
       displayName: axiosResponse.data[0].display_name,
       longitude: axiosResponse.data[0].lon,
-      latitude: axiosResponse.data[0].lat
+      latitude: axiosResponse.data[0].lat,
+      error:true,
     })
 
   } 
@@ -45,7 +48,7 @@ export class App extends Component {
       </form> 
 
       
-     
+     {(this.state.error && this.state.displayName!=='') &&
       <Card style={{ width: "80%", height: "100%",marginLeft: "7vh" }}>
                             
                             <Card.Body>
@@ -65,6 +68,13 @@ export class App extends Component {
 
 
                         </Card>
+                        }
+
+                        {(!this.state.error && this.state.show) && 
+                      <h1>"error": "Unable to geocode" Please fill in the data</h1>
+
+                        
+                        }
       </div>
     )
   }

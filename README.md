@@ -13,9 +13,19 @@ The user must sign up on locationiq's website, create a personal token, download
 The application uses react to build the web app and has a form in the main page, then the app uses axiom's library to pull data from locationiq's API.
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
+27/06/2021 - 3:00 PM: 
+Started the app and installed bootstrap and axios.
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+27/06/2021 - 4:00 PM: 
+Retrieved data from axios.get() and added them to props
 
+27/06/2021 - 5:00 PM: 
+Retrieved data from locationiq map and rendered it
+
+27/06/2021 - 6:00 PM: 
+Deployed website on netlify and on github.
+
+27/06/2021 - 7:00 PM: 
+Added bootstrap styling
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+Osamamomani1 repo
