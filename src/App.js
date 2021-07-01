@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Button,Form, Card} from 'react-bootstrap'
 import Weather from './Components/Weather'
+import Movies from './Components/Movies'
 
 export class App extends Component {
   constructor(props){
@@ -17,6 +18,8 @@ export class App extends Component {
     weatherData:[],
     cityData:{},
     errormsg:'',
+    movieData:[],
+
    
 
   }
@@ -32,24 +35,18 @@ export class App extends Component {
   dataSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-    const axiosResponse = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=pk.ea6b96cd46813c4bd134a0701a31ab4b&q=${this.state.displayName}&format=json`)
-    
-    
+    const axiosResponse = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_lOCATIONIQ_KEY}=${this.state.displayName}&format=json`)
 
-    
     this.setState({
       cityData: axiosResponse.data,
       
       longitude: axiosResponse.data[0].lon,
       latitude: axiosResponse.data[0].lat,
       error:true,
-   
-
-      
       
     })
     try {
-    const axiosLocalApi = await axios.get(`http://localhost:${process.env.REACT_APP_BACKEND_PORT}/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&searchQuery=${this.state.displayName}`)
+    const axiosLocalApi = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/weather?lat=${this.state.latitude}&lon=${this.state.longitude}&searchQuery=${this.state.displayName}`)
 
     this.setState({
       weatherData: axiosLocalApi.data,
@@ -63,14 +60,22 @@ export class App extends Component {
     console.log()
     this.setState({
       errormsg: "Can't find the forecast for that!",
-      error: true,
-      
+      error: true,   
       
     })
     
   } 
 
+  const axiosMoviesApi = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?query=${this.state.displayName}`)
+ console.log(axiosMoviesApi)
+  this.setState({
+    movieData:axiosMoviesApi.data
+    
+  })
+
 }
+
+
   
 
   render() {
@@ -122,7 +127,14 @@ export class App extends Component {
 
                        }
 
-                        
+                        {
+                          this.state.movieData.map(movieData => {
+                            return <Movies movieName={movieData.title}
+                            movieImage={movieData.image_url} movieVotes={movieData.total_votes}
+                            />
+                          })
+
+                        }
                         
       </div>
     )
