@@ -10,7 +10,7 @@ export class App extends Component {
   constructor(props){
   super(props);
   this.state={
-  
+
     longitude:'',
     latitude:'',
     error:false,
@@ -19,8 +19,8 @@ export class App extends Component {
     cityData:{},
     errormsg:'',
     movieData:[],
-
-   
+    locaTimestamp:'',
+    movieTimestamp:'',
 
   }
   }
@@ -39,7 +39,7 @@ export class App extends Component {
 
     this.setState({
       cityData: axiosResponse.data,
-      
+      locaTimestamp:Date.now(),
       longitude: axiosResponse.data[0].lon,
       latitude: axiosResponse.data[0].lat,
       error:true,
@@ -69,8 +69,8 @@ export class App extends Component {
   const axiosMoviesApi = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/movies?query=${this.state.displayName}`)
  console.log(axiosMoviesApi)
   this.setState({
-    movieData:axiosMoviesApi.data
-    
+    movieData:axiosMoviesApi.data,
+    movieTimestamp:Date.now()
   })
 
 }
@@ -81,6 +81,7 @@ export class App extends Component {
   render() {
     return (
       <div>
+        
         <Form onSubmit={(e) => {this.dataSubmitHandler(e)}} >
   <Form.Group controlId="formBasicEmail">
     <Form.Label>Search for a city, example: Amman, Seattle or Paris</Form.Label>
@@ -103,7 +104,7 @@ export class App extends Component {
                             {this.state.errormsg}
                             </Card.Text>
                                 <Card.Text>
-                                
+                                LocationIQ Timestamp{':  '+ this.state.locaTimestamp}<br></br>
                                   City/Country: {this.state.displayName} <br></br>
                                   Longitude: {this.state.longitude} <br></br>
                                   Latitude: {this.state.latitude} 
@@ -116,17 +117,30 @@ export class App extends Component {
 
 
 
-
+                           
                         </Card>
-                        
+                      
     }
-                       {
+                       
+                       {(this.state.error && this.state.displayName!=='') &&
+                       <Card>
+                         <Card.Text>  Weather Timestamp: {this.state.movieTimestamp}
+                                </Card.Text>
+                       </Card>
+                      }
+                      {
                         this.state.weatherData.map(weatherData=> {
                           return <Weather desc={weatherData.description} date={weatherData.date} />
                         })
 
                        }
 
+                   {(this.state.error && this.state.displayName!=='') &&
+                       <Card>
+                         <Card.Text>  Movie Timestamp: {this.state.movieTimestamp}
+                                </Card.Text>
+                       </Card>
+                      }
                         {
                           this.state.movieData.map(movieData => {
                             return <Movies movieName={movieData.title}
